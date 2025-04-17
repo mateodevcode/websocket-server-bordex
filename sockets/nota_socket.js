@@ -1,4 +1,4 @@
-import Nota from "../models/Nota.js";
+import Nota from "../models/nota.js";
 
 export const nota_socket = (io) => {
   // Evento cuando un cliente se conecta
