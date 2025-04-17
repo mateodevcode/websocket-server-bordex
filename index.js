@@ -12,7 +12,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "*", // Cambia esto por tu dominio en producción
+    origin: "https://bordex.vercel.app", // Cambia esto por tu dominio en producción
     methods: ["GET", "POST"],
   },
 });
