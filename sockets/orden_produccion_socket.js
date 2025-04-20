@@ -46,7 +46,25 @@ export const orden_produccion_socket = (io) => {
       if (!orden) {
         return socket.emit("server:error", "Orden de producción no encontrada");
       }
+
+      // 2. Verifica si todos los productos de la orden están en "despacho"
+      const todosEnDespacho = orden.productos.every(
+        (p) => p.estado === "despacho"
+      );
+
+      // 3. Si todos están en "despacho", actualiza la orden a "completado"
+      if (todosEnDespacho) {
+        await OrdenProduccion.findByIdAndUpdate(id, {
+          estado: "completado",
+        });
+      } else {
+        await OrdenProduccion.findByIdAndUpdate(id, {
+          estado: "pendiente",
+        });
+      }
+
       const ordenes_produccion = await OrdenProduccion.find(); // Obtener todas las ordenes de produccion actualizadas
+
       io.emit("server:orden_produccion", ordenes_produccion); // Emitir a todos
     });
 
